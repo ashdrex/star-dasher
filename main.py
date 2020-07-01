@@ -2,13 +2,14 @@
 a side scrolling runner game using Python
 a project created summer of 2020
 
-@author ashley hui
-@art ashley hui
+@author ashley drexler
+@art ashley drexler
 @music james hammond @ http://jameshammondrf.bandcamp.com
 """
 
 import pygame as pg
 from pygame import mixer
+import sys
 import random
 
 # initialize pygame
@@ -24,19 +25,19 @@ BASICFONT = pg.font.Font('8bitpusab.ttf', 21)
 FPS = 2
 
 # music
-mixer.music.load("/sounds/bg.mp3")
+mixer.music.load("sounds/bg.mp3")
 mixer.music.play(-1)
 
 
 # title and icon
 pg.display.set_caption('star dasher')
-icon = pg.image.load('/images/logo.png')
+icon = pg.image.load('images/logo.png')
 pg.display.set_icon(icon)
 
 # game background scroll
 
-bg = pg.image.load('/images/bg/background1.png')
-bg2 = pg.image.load('/images/bg/background2.png')
+bg = pg.image.load('images/bg/background1.png')
+bg2 = pg.image.load('images/bg/background2.png')
 bgX = 0
 bgX2 = bg.get_width()
 
@@ -71,7 +72,7 @@ def checkForKeyPress():
 
 
 def showStart():
-    startScreen = pg.image.load('/images/bg/startscreen.png')
+    startScreen = pg.image.load('images/bg/startscreen.png')
     titleFont = pg.font.Font('8bitpusab.ttf', 55)
 
     title1 = titleFont.render('STAR DASHER', True, (116, 60, 89))
@@ -98,7 +99,7 @@ def showStart():
 def showEnd():
     end = True
     while end:
-        endScreen = pg.image.load('/images/bg/endscreen.png')
+        endScreen = pg.image.load('images/bg/endscreen.png')
         titleFont = pg.font.Font('8bitpusab.ttf', 55)
 
         title1 = titleFont.render('GAME OVER', True, (116, 60, 89))
@@ -132,7 +133,7 @@ def draw():
 
 # character
 class Girl(object):
-    girl = pg.image.load('/images/character/run1.png')
+    girl = pg.image.load('images/character/run1.png')
 
     def __init__(self, x, y, width, height):
         self.x = x
@@ -168,7 +169,7 @@ class Girl(object):
 # ground obstacle
 
 class groundObj(object):
-    groundStar = pg.image.load('/images/objects/groundObj.png')
+    groundStar = pg.image.load('images/objects/groundObj.png')
 
     def __init__(self, x, y, width, height):
         self.x = x
@@ -219,7 +220,9 @@ while gameRunning:
 
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            gameRunning = False
+            pg.display.quit()
+            pg.quit()
+            sys.exit(0)
         if event.type == pg.USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0:
