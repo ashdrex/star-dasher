@@ -23,11 +23,11 @@ clock = pg.time.Clock()     #use to increase speed of FPS
 score = 0
 BASICFONT = pg.font.Font('8bitpusab.ttf', 21)
 FPS = 2
+speed = 100
 
 # music
 mixer.music.load("sounds/bg.mp3")
 mixer.music.play(-1)
-
 
 # title and icon
 pg.display.set_caption('star dasher')
@@ -122,6 +122,7 @@ def showEnd():
                 end = False
                 return
             pg.display.update()
+    score = 0
 
 def draw():
     screen.blit(bg, (round(bgX), 0))
@@ -130,6 +131,10 @@ def draw():
     for object in objects:
         object.draw(screen)
     pg.display.update()
+
+def redrawWindow():
+    screen.blit(bg, (round(bgX), 0))
+    screen.blit(bg2, (round(bgX2), 0))
 
 # character
 class Girl(object):
@@ -198,12 +203,14 @@ ground = 330.00
 girl = Girl(100.00, ground, 120, 140)
 objects = []
 showStart()
+pg.time.set_timer(pg.USEREVENT+1, 500)
 
 
 while gameRunning:
     draw()
     bgX -= 1.4
     bgX2 -= 1.4
+    score = speed//5 - 6
 
     if bgX < bg.get_width () * -1:
         bgX = bg.get_width()
@@ -223,11 +230,14 @@ while gameRunning:
             pg.display.quit()
             pg.quit()
             sys.exit(0)
+        if event.type == pg.USEREVENT+1:
+            speed += 1
         if event.type == pg.USEREVENT+2:
             r = random.randrange(0,2)
             if r == 0:
                 objects.append(groundObj(810, 390, 110, 70))
 
+    clock.tick(speed)
     key = pg.key.get_pressed()
 
     if key[pg.K_UP]:
